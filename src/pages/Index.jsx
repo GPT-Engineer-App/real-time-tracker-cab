@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,27 @@ import slidingButtonIcon from "../../public/images/sliding-button-icon.png";
 
 const Index = () => {
   const [position, setPosition] = useState([51.505, -0.09]);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setPosition([latitude, longitude]);
+        },
+        (error) => {
+          console.error("Error getting user's location:", error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   return (
     <div className="h-screen w-screen relative">
@@ -16,7 +37,7 @@ const Index = () => {
         />
         <Marker position={position}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            You are here.
           </Popup>
         </Marker>
       </MapContainer>
