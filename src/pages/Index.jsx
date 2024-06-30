@@ -61,7 +61,7 @@ const Index = () => {
   };
 
   return (
-    <div className="h-screen w-screen relative">
+    <>
       <Header>
         <Drawer>
           <DrawerTrigger asChild>
@@ -81,26 +81,28 @@ const Index = () => {
           </DrawerContent>
         </Drawer>
       </Header>
-      <MapContainer center={position} zoom={13} className="h-full w-full">
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Marker position={position}>
-          <Popup>
-            You are here. <br /> Country: {country}
-          </Popup>
-        </Marker>
-        {pins.map((pin, index) => (
-          <Marker key={index} position={pin}>
+      <div className="h-screen w-screen pt-16 relative"> {/* Added pt-16 for spacing */}
+        <MapContainer center={position} zoom={13} className="h-full w-full">
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={position}>
             <Popup>
-              Pinned Location: {pin[0].toFixed(4)}, {pin[1].toFixed(4)}
+              You are here. <br /> Country: {country}
             </Popup>
           </Marker>
-        ))}
-        <MapClickHandler />
-      </MapContainer>
-    </div>
+          {pins.map((pin, index) => (
+            <Marker key={index} position={pin}>
+              <Popup>
+                Pinned Location: {pin[0].toFixed(4)}, {pin[1].toFixed(4)}
+              </Popup>
+            </Marker>
+          ))}
+          <MapClickHandler />
+        </MapContainer>
+      </div>
+    </>
   );
 };
 
