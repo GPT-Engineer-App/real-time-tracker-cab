@@ -6,7 +6,6 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { MoreVertical, ArrowRight } from "lucide-react";
 import { Header } from "@/components/ui/header";
 import { Avatar } from "@/components/ui/avatar";
-import { Rating } from "@/components/ui/rating"; // Assuming there's a Rating component
 
 const Index = () => {
   const [position, setPosition] = useState([20.5937, 78.9629]); // Default to India's coordinates
@@ -75,7 +74,7 @@ const Index = () => {
             <div className="flex items-center space-x-4">
               <Avatar src="/path/to/user/photo.jpg" alt="User Photo" className="w-12 h-12 rounded-full" />
               <div className="flex-1">
-                <Rating value={4.5} readOnly /> {/* Assuming a Rating component */}
+                <span>Rating: 4.5</span>
               </div>
               <Button variant="ghost" className="p-2">
                 <ArrowRight className="h-6 w-6" />
