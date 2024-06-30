@@ -3,6 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaf
 import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
 import slidingButtonIcon from "../../public/images/sliding-button-icon.png";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { MoreVertical } from "lucide-react";
 
 const Index = () => {
   const [position, setPosition] = useState([20.5937, 78.9629]); // Default to India's coordinates
@@ -79,10 +81,23 @@ const Index = () => {
         ))}
         <MapClickHandler />
       </MapContainer>
-      <Button className="absolute top-4 left-4 flex items-center space-x-2">
-        <img src={slidingButtonIcon} alt="Sliding Button" className="h-6 w-6" />
-        <span>Slide</span>
-      </Button>
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button className="absolute top-4 left-4 flex items-center space-x-2">
+            <MoreVertical className="h-6 w-6" />
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <div className="p-4">
+            <h2 className="text-lg font-semibold">Menu</h2>
+            <ul className="mt-2 space-y-2">
+              <li><a href="#">Option 1</a></li>
+              <li><a href="#">Option 2</a></li>
+              <li><a href="#">Option 3</a></li>
+            </ul>
+          </div>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };
