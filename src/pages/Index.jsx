@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
 import slidingButtonIcon from "../../public/images/sliding-button-icon.png";
@@ -7,6 +7,7 @@ import slidingButtonIcon from "../../public/images/sliding-button-icon.png";
 const Index = () => {
   const [position, setPosition] = useState([20.5937, 78.9629]); // Default to India's coordinates
   const [country, setCountry] = useState("");
+  const [pins, setPins] = useState([]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -22,7 +23,7 @@ const Index = () => {
             );
             const data = await response.json();
             setCountry(data.countryName);
-          // Check if the coordinates are within India
+            // Check if the coordinates are within India
             if (data.countryName === "India") {
               // Handle any specific edge cases for India here
               console.log("User is in India");
@@ -47,6 +48,16 @@ const Index = () => {
     }
   }, []);
 
+  const MapClickHandler = () => {
+    useMapEvents({
+      click(e) {
+        const { lat, lng } = e.latlng;
+        setPins((prevPins) => [...prevPins, [lat, lng]]);
+      },
+    });
+    return null;
+  };
+
   return (
     <div className="h-screen w-screen relative">
       <MapContainer center={position} zoom={13} className="h-full w-full">
@@ -59,6 +70,14 @@ const Index = () => {
             You are here. <br /> Country: {country}
           </Popup>
         </Marker>
+        {pins.map((pin, index) => (
+          <Marker key={index} position={pin}>
+            <Popup>
+              Pinned Location: {pin[0].toFixed(4)}, {pin[1].toFixed(4)}
+            </Popup>
+          </Marker>
+        ))}
+        <MapClickHandler />
       </MapContainer>
       <Button className="absolute top-4 left-4 flex items-center space-x-2">
         <img src={slidingButtonIcon} alt="Sliding Button" className="h-6 w-6" />
