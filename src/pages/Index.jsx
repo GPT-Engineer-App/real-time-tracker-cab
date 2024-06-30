@@ -6,13 +6,25 @@ import slidingButtonIcon from "../../public/images/sliding-button-icon.png";
 
 const Index = () => {
   const [position, setPosition] = useState([51.505, -0.09]);
+  const [country, setCountry] = useState("");
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(
-        (position) => {
+        async (position) => {
           const { latitude, longitude } = position.coords;
           setPosition([latitude, longitude]);
+
+          // Fetch country based on latitude and longitude
+          try {
+            const response = await fetch(
+              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+            );
+            const data = await response.json();
+            setCountry(data.countryName);
+          } catch (error) {
+            console.error("Error fetching country data:", error);
+          }
         },
         (error) => {
           console.error("Error getting user's location:", error);
@@ -37,7 +49,7 @@ const Index = () => {
         />
         <Marker position={position}>
           <Popup>
-            You are here.
+            You are here. <br /> Country: {country}
           </Popup>
         </Marker>
       </MapContainer>
