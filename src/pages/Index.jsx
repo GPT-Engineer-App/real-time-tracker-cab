@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import slidingButtonIcon from "../../public/images/sliding-button-icon.png";
 
 const Index = () => {
-  const [position, setPosition] = useState([51.505, -0.09]);
+  const [position, setPosition] = useState([20.5937, 78.9629]); // Default to India's coordinates
   const [country, setCountry] = useState("");
 
   useEffect(() => {
@@ -22,6 +22,13 @@ const Index = () => {
             );
             const data = await response.json();
             setCountry(data.countryName);
+          // Check if the coordinates are within India
+            if (data.countryName === "India") {
+              // Handle any specific edge cases for India here
+              console.log("User is in India");
+            } else {
+              console.log("User is not in India");
+            }
           } catch (error) {
             console.error("Error fetching country data:", error);
           }
