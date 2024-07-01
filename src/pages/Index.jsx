@@ -66,11 +66,11 @@ const Index = () => {
       <Header>
         <Drawer>
           <DrawerTrigger asChild>
-            <Button className="flex items-center space-x-2 z-50">
+            <Button className="flex items-center space-x-2">
               <MoreVertical className="h-6 w-6" />
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="w-64 p-4 z-50">
+          <DrawerContent className="w-64 p-4">
             <div className="flex items-center space-x-4">
               <Avatar src="/path/to/user/photo.jpg" alt="User Photo" className="w-12 h-12 rounded-full" />
               <div className="flex-1">
